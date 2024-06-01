@@ -15,11 +15,13 @@ namespace EntityFramework.WindForms
 {
     public partial class CustomerForm : Form
     {
+        private readonly IRepository<Customer> _customerRepository;
         private readonly AutoLotContext _context = new AutoLotContext();
 
         public CustomerForm()
         {
             InitializeComponent();
+            _customerRepository = new Repository<Customer>(_context);
             dgvCustomers.DataError += dgvCustomers_DataError;
             LoadCustomersAsync();
         }
@@ -33,8 +35,8 @@ namespace EntityFramework.WindForms
         {
             try
             {
-                dgvCustomers.SelectionChanged -= dgvCustomer_SelectionChanged;  // Deshabilita el evento
-                var customers = await Task.Run(() => _context.Customers.ToList());
+                dgvCustomers.SelectionChanged -= dgvCustomer_SelectionChanged;  
+                var customers = await _customerRepository.GetAllAsync();
                 dgvCustomers.DataSource = customers;
                 dgvCustomers.Columns["CreditRisks"].Visible = false;
                 dgvCustomers.SelectionChanged += dgvCustomer_SelectionChanged;
@@ -91,8 +93,7 @@ namespace EntityFramework.WindForms
                     LastName = txtLastName.Text,
                     TimeStamp = BitConverter.GetBytes(dtpTimeStamp.Value.Ticks)
                 };
-                _context.Customers.Add(customer);
-                await _context.SaveChangesAsync();
+                await _customerRepository.AddAsync(customer);
                 LoadCustomersAsync();
                 ClearCustomerInputs();
             }
@@ -111,14 +112,13 @@ namespace EntityFramework.WindForms
             try
             {
                 int customerId = int.Parse(txtCustomerId.Text);
-                var customer = await _context.Customers.FindAsync(customerId);
+                var customer = await _customerRepository.GetByIdAsync(customerId);
                 if (customer != null)
                 {
                     customer.FirstName = txtFirstName.Text;
                     customer.LastName = txtLastName.Text;
                     customer.TimeStamp = BitConverter.GetBytes(dtpTimeStamp.Value.Ticks);
-                    // _context.Entry(customer).State = EntityState.Modified;
-                    await _context.SaveChangesAsync();
+                    await _customerRepository.UpdateAsync(customer);
                     LoadCustomersAsync();
                     ClearCustomerInputs();
                 }
@@ -138,14 +138,9 @@ namespace EntityFramework.WindForms
             try
             {
                 int customerId = int.Parse(txtCustomerId.Text);
-                var customer = await _context.Customers.FindAsync(customerId);
-                if (customer != null)
-                {
-                    _context.Customers.Remove(customer);
-                    await _context.SaveChangesAsync();
-                    LoadCustomersAsync();
-                    ClearCustomerInputs();
-                }
+                await _customerRepository.DeleteAsync(customerId);
+                LoadCustomersAsync();
+                ClearCustomerInputs();
             }
             catch (DbUpdateException ex)
             {
