@@ -63,8 +63,7 @@ namespace TareaADO
                                 new Make()
                                 {
                                     Id = reader.GetInt32(0),
-                                    Name = reader.GetString(1),
-                                    TimeStamp = reader.GetDateTime(2)
+                                    Name = reader.GetString(1)
                                 }
                             );
                         }
@@ -99,8 +98,7 @@ namespace TareaADO
                         Make make = new Make
                         {
                             Id = reader.GetInt32(0),
-                            Name = reader.GetString(1),
-                            TimeStamp = reader.GetDateTime(2)
+                            Name = reader.GetString(1)
                         };
 
                         return make;
@@ -119,8 +117,8 @@ namespace TareaADO
         public void Insert(Make make)
         {
 
-            string query = "INSERT INTO Makes(Name, TimeStamp)" +
-                $"VALUES (@Name, @TimeStamp)";
+            string query = "INSERT INTO Makes(Name)" +
+                $"VALUES (@Name)";
 
             try
             {
@@ -132,7 +130,6 @@ namespace TareaADO
                     SqlCommand command = new SqlCommand(query, connection);
 
                     command.Parameters.AddWithValue("@Name", make.Name);
-                    command.Parameters.AddWithValue("@TimeStamp", DateTime.Now);
 
                     command.ExecuteNonQuery();
                 }
@@ -148,7 +145,7 @@ namespace TareaADO
         public void Update(Make make)
         {
             string query = "UPDATE Makes SET" +
-                " Name = @Name, TimeStamp = @TimeStamp WHERE Id = @Id";
+                " Name = @Name WHERE Id = @Id";
 
             try
             {
@@ -161,7 +158,6 @@ namespace TareaADO
 
                     command.Parameters.AddWithValue("@Id", make.Id);
                     command.Parameters.AddWithValue("@Name", make.Name);
-                    command.Parameters.AddWithValue("@TimeStamp", DateTime.Now);
 
                     command.ExecuteNonQuery();
                 }

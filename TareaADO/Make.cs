@@ -11,7 +11,5 @@ namespace TareaADO
         public int Id { get; set; }
 
         public string Name { get; set; }
-
-        public DateTime TimeStamp { get; set; }
     }
 }

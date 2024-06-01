@@ -113,12 +113,35 @@ namespace TareaADO
             {
                 PetName = txtPetName.Text,
                 MakeId = (int)cmbMakes.SelectedValue,
-                Color = txtColor.Text,
-                TimeStamp = DateTime.Now
+                Color = txtColor.Text
             };
 
             _petRepository.Insert(pet);
             RefreshData();
+        }
+
+        private void btnSearch_Click(object sender, EventArgs e)
+        {
+            if(String.IsNullOrEmpty(txtSearch.Text))
+            {
+                RefreshData();
+                return;
+            }
+
+            int id = Convert.ToInt32(txtSearch.Text);
+
+            var pets = new List<Pet>();
+            var pet = _petRepository.GetById(id);
+
+            if(pet == null)
+            {
+                MessageBox.Show("Pet not found", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            pets.Add(pet);
+
+            dgvInventory.DataSource = pets;
         }
     }
 }

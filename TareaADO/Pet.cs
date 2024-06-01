@@ -15,7 +15,5 @@ namespace TareaADO
         public string Color { get; set; }
 
         public string PetName { get; set; }
-
-        public DateTime TimeStamp { get; set; }
     }
 }

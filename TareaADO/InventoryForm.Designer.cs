@@ -38,6 +38,9 @@
             btnNew = new Button();
             btnUpdate = new Button();
             btnDelete = new Button();
+            lblSearch = new Label();
+            btnSearch = new Button();
+            txtSearch = new TextBox();
             ((System.ComponentModel.ISupportInitialize)dgvInventory).BeginInit();
             SuspendLayout();
             // 
@@ -47,7 +50,7 @@
             dgvInventory.Location = new Point(39, 199);
             dgvInventory.Name = "dgvInventory";
             dgvInventory.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvInventory.Size = new Size(431, 223);
+            dgvInventory.Size = new Size(549, 223);
             dgvInventory.TabIndex = 0;
             // 
             // lblPetName
@@ -101,7 +104,7 @@
             // 
             // btnNew
             // 
-            btnNew.Location = new Point(395, 22);
+            btnNew.Location = new Point(340, 21);
             btnNew.Name = "btnNew";
             btnNew.Size = new Size(75, 23);
             btnNew.TabIndex = 7;
@@ -110,7 +113,7 @@
             // 
             // btnUpdate
             // 
-            btnUpdate.Location = new Point(395, 62);
+            btnUpdate.Location = new Point(340, 62);
             btnUpdate.Name = "btnUpdate";
             btnUpdate.Size = new Size(75, 23);
             btnUpdate.TabIndex = 8;
@@ -119,18 +122,47 @@
             // 
             // btnDelete
             // 
-            btnDelete.Location = new Point(395, 107);
+            btnDelete.Location = new Point(340, 107);
             btnDelete.Name = "btnDelete";
             btnDelete.Size = new Size(75, 23);
             btnDelete.TabIndex = 9;
             btnDelete.Text = "Delete";
             btnDelete.UseVisualStyleBackColor = true;
             // 
+            // lblSearch
+            // 
+            lblSearch.AutoSize = true;
+            lblSearch.Location = new Point(476, 23);
+            lblSearch.Name = "lblSearch";
+            lblSearch.Size = new Size(71, 15);
+            lblSearch.TabIndex = 10;
+            lblSearch.Text = "Search by Id";
+            // 
+            // btnSearch
+            // 
+            btnSearch.Location = new Point(476, 93);
+            btnSearch.Name = "btnSearch";
+            btnSearch.Size = new Size(75, 37);
+            btnSearch.TabIndex = 11;
+            btnSearch.Text = "Search";
+            btnSearch.UseVisualStyleBackColor = true;
+            btnSearch.Click += btnSearch_Click;
+            // 
+            // txtSearch
+            // 
+            txtSearch.Location = new Point(476, 52);
+            txtSearch.Name = "txtSearch";
+            txtSearch.Size = new Size(75, 23);
+            txtSearch.TabIndex = 12;
+            // 
             // InventoryForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(519, 450);
+            ClientSize = new Size(619, 450);
+            Controls.Add(txtSearch);
+            Controls.Add(btnSearch);
+            Controls.Add(lblSearch);
             Controls.Add(btnDelete);
             Controls.Add(btnUpdate);
             Controls.Add(btnNew);
@@ -160,5 +192,8 @@
         private Button btnNew;
         private Button btnUpdate;
         private Button btnDelete;
+        private Label lblSearch;
+        private Button btnSearch;
+        private TextBox txtSearch;
     }
 }
