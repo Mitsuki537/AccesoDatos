@@ -94,12 +94,35 @@ namespace TareaADO
 
             Make make = new Make
             {
-                Name = txtName.Text,
-                TimeStamp = DateTime.Now
+                Name = txtName.Text
             };
 
             _makeRepository.Insert(make);
             RefreshData();
+        }
+
+        private void btnSearch_Click(object sender, EventArgs e)
+        {
+            if (String.IsNullOrEmpty(txtSearch.Text))
+            {
+                RefreshData();
+                return;
+            }
+
+            int id = Convert.ToInt32(txtSearch.Text);
+
+            var makes = new List<Make>();
+            var make = _makeRepository.GetById(id);
+
+            if (make == null)
+            {
+                MessageBox.Show("Make not found", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            makes.Add(make);
+
+            dgvMakes.DataSource = makes;
         }
     }
 }

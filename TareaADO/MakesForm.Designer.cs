@@ -34,6 +34,9 @@
             btnNew = new Button();
             btnUpdate = new Button();
             btnDelete = new Button();
+            txtSearch = new TextBox();
+            btnSearch = new Button();
+            lblSearch = new Label();
             ((System.ComponentModel.ISupportInitialize)dgvMakes).BeginInit();
             SuspendLayout();
             // 
@@ -64,7 +67,7 @@
             // 
             // btnNew
             // 
-            btnNew.Location = new Point(405, 41);
+            btnNew.Location = new Point(28, 80);
             btnNew.Name = "btnNew";
             btnNew.Size = new Size(75, 23);
             btnNew.TabIndex = 3;
@@ -73,7 +76,7 @@
             // 
             // btnUpdate
             // 
-            btnUpdate.Location = new Point(536, 41);
+            btnUpdate.Location = new Point(154, 80);
             btnUpdate.Name = "btnUpdate";
             btnUpdate.Size = new Size(75, 23);
             btnUpdate.TabIndex = 4;
@@ -82,18 +85,47 @@
             // 
             // btnDelete
             // 
-            btnDelete.Location = new Point(672, 42);
+            btnDelete.Location = new Point(277, 80);
             btnDelete.Name = "btnDelete";
             btnDelete.Size = new Size(75, 23);
             btnDelete.TabIndex = 5;
             btnDelete.Text = "Delete";
             btnDelete.UseVisualStyleBackColor = true;
             // 
+            // txtSearch
+            // 
+            txtSearch.Location = new Point(551, 38);
+            txtSearch.Name = "txtSearch";
+            txtSearch.Size = new Size(75, 23);
+            txtSearch.TabIndex = 15;
+            // 
+            // btnSearch
+            // 
+            btnSearch.Location = new Point(465, 79);
+            btnSearch.Name = "btnSearch";
+            btnSearch.Size = new Size(161, 24);
+            btnSearch.TabIndex = 14;
+            btnSearch.Text = "Search";
+            btnSearch.UseVisualStyleBackColor = true;
+            btnSearch.Click += btnSearch_Click;
+            // 
+            // lblSearch
+            // 
+            lblSearch.AutoSize = true;
+            lblSearch.Location = new Point(465, 43);
+            lblSearch.Name = "lblSearch";
+            lblSearch.Size = new Size(71, 15);
+            lblSearch.TabIndex = 13;
+            lblSearch.Text = "Search by Id";
+            // 
             // MakesForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
+            Controls.Add(txtSearch);
+            Controls.Add(btnSearch);
+            Controls.Add(lblSearch);
             Controls.Add(btnDelete);
             Controls.Add(btnUpdate);
             Controls.Add(btnNew);
@@ -115,5 +147,8 @@
         private Button btnNew;
         private Button btnUpdate;
         private Button btnDelete;
+        private TextBox txtSearch;
+        private Button btnSearch;
+        private Label lblSearch;
     }
 }

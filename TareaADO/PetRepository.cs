@@ -66,8 +66,7 @@ namespace TareaADO
                                     Id = reader.GetInt32(0),
                                     MakeId = reader.GetInt32(1),
                                     Color = reader.GetString(2),
-                                    PetName = reader.GetString(3),
-                                    TimeStamp = reader.GetDateTime(4)
+                                    PetName = reader.GetString(3)
                                 }
                             );
                         }
@@ -104,8 +103,7 @@ namespace TareaADO
                             Id = reader.GetInt32(0),
                             MakeId = reader.GetInt32(1),
                             Color = reader.GetString(2),
-                            PetName = reader.GetString(3),
-                            TimeStamp = reader.GetDateTime(4)
+                            PetName = reader.GetString(3)
                         };
 
                         return Pet;
@@ -124,8 +122,8 @@ namespace TareaADO
         public void Insert(Pet Pet)
         {
 
-            string query = "INSERT INTO Inventory(MakeId, Color, PetName, TimeStamp)" +
-                $"VALUES (@MakeId, @Color, @PetName, @TimeStamp)";
+            string query = "INSERT INTO Inventory(MakeId, Color, PetName)" +
+                $"VALUES (@MakeId, @Color, @PetName)";
 
             try
             {
@@ -139,7 +137,6 @@ namespace TareaADO
                     command.Parameters.AddWithValue("@MakeId", Pet.MakeId);
                     command.Parameters.AddWithValue("Color", Pet.Color);
                     command.Parameters.AddWithValue("@PetName", Pet.PetName);
-                    command.Parameters.AddWithValue("@TimeStamp", DateTime.Now);
 
                     command.ExecuteNonQuery();
                 }
@@ -155,7 +152,7 @@ namespace TareaADO
         public void Update(Pet Pet)
         {
             string query = "UPDATE Inventory SET" +
-                " MakeId = @MakeId, Color = @Color, PetName = @PetName, TimeStamp = @TimeStamp WHERE Id = @Id";
+                " MakeId = @MakeId, Color = @Color, PetName = @PetName WHERE Id = @Id";
 
             try
             {
@@ -170,7 +167,6 @@ namespace TareaADO
                     command.Parameters.AddWithValue("@MakeId", Pet.MakeId);
                     command.Parameters.AddWithValue("Color", Pet.Color);
                     command.Parameters.AddWithValue("@PetName", Pet.PetName);
-                    command.Parameters.AddWithValue("@TimeStamp", DateTime.Now);
 
                     command.ExecuteNonQuery();
                 }
