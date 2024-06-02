@@ -1,4 +1,4 @@
-﻿namespace EntityFramework
+﻿namespace EntityFramework.UI
 {
     partial class AutolotForm
     {
@@ -30,7 +30,7 @@
         {
             label1 = new Label();
             panel1 = new Panel();
-            btnCreditRisk = new Button();
+            btnCreditRiskForm = new Button();
             btnCustomerForm = new Button();
             panel2 = new Panel();
             panel1.SuspendLayout();
@@ -50,7 +50,7 @@
             // panel1
             // 
             panel1.BackColor = Color.MediumBlue;
-            panel1.Controls.Add(btnCreditRisk);
+            panel1.Controls.Add(btnCreditRiskForm);
             panel1.Controls.Add(btnCustomerForm);
             panel1.Controls.Add(label1);
             panel1.Dock = DockStyle.Left;
@@ -59,16 +59,16 @@
             panel1.Size = new Size(116, 490);
             panel1.TabIndex = 10;
             // 
-            // btnCreditRisk
+            // btnCreditRiskForm
             // 
-            btnCreditRisk.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            btnCreditRisk.Location = new Point(19, 113);
-            btnCreditRisk.Name = "btnCreditRisk";
-            btnCreditRisk.Size = new Size(75, 23);
-            btnCreditRisk.TabIndex = 13;
-            btnCreditRisk.Text = "CreditRisk";
-            btnCreditRisk.UseVisualStyleBackColor = true;
-            btnCreditRisk.Click += btnCreditRisk_Click;
+            btnCreditRiskForm.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btnCreditRiskForm.Location = new Point(19, 113);
+            btnCreditRiskForm.Name = "btnCreditRiskForm";
+            btnCreditRiskForm.Size = new Size(75, 23);
+            btnCreditRiskForm.TabIndex = 13;
+            btnCreditRiskForm.Text = "CreditRisk";
+            btnCreditRiskForm.UseVisualStyleBackColor = true;
+            btnCreditRiskForm.Click += btnCreditRiskForm_Click;
             // 
             // btnCustomerForm
             // 
@@ -113,6 +113,6 @@
         private Panel panel1;
         private Panel panel2;
         private Button btnCustomerForm;
-        private Button btnCreditRisk;
+        private Button btnCreditRiskForm;
     }
 }

@@ -1,3 +1,5 @@
+using EntityFramework.UI;
+
 namespace EntityFramework
 {
     internal static class Program

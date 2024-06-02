@@ -9,8 +9,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml.Linq;
+using ADO.Models;
 
-namespace TareaADO
+namespace ADO.UI
 {
     public partial class InventoryForm : Form
     {
@@ -26,18 +27,29 @@ namespace TareaADO
             RefreshData();
         }
 
-        private void lblName_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void InventoryForm_Load(object sender, EventArgs e)
         {
-            cmbMakes.DataSource = _makeRepository.GetAll()
-                .Select(m => m.Id)
-                .ToList();
+            //cmbMakes.DataSource = _makeRepository.GetAll()
+            //    .Select(m => m.Name)
+            //    .ToList();
+            var makes = _makeRepository.GetAll().ToList();
+            cmbMakes.DataSource = makes; 
+            cmbMakes.DisplayMember = "Name"; 
+            cmbMakes.ValueMember = "Id";
         }
-
+        private void cmbMakes_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cmbMakes.SelectedValue != null)
+            {
+                int selectedMakeId = (int)cmbMakes.SelectedValue;
+                var make = _makeRepository.GetById(selectedMakeId);
+                if (make != null)
+                {
+                    txtPetName.Text = make.Name; 
+                    txtColor.Text = "Default Color"; 
+                }
+            }
+        }
         private void btnUpdate_Click(object sender, EventArgs e)
         {
             var pet = (Pet)dgvInventory.SelectedRows[0].DataBoundItem;
@@ -122,7 +134,7 @@ namespace TareaADO
 
         private void btnSearch_Click(object sender, EventArgs e)
         {
-            if(String.IsNullOrEmpty(txtSearch.Text))
+            if (String.IsNullOrEmpty(txtSearch.Text))
             {
                 RefreshData();
                 return;
@@ -133,7 +145,7 @@ namespace TareaADO
             var pets = new List<Pet>();
             var pet = _petRepository.GetById(id);
 
-            if(pet == null)
+            if (pet == null)
             {
                 MessageBox.Show("Pet not found", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;

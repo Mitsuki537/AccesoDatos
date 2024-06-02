@@ -4,16 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TareaADO
+namespace ADO.Models
 {
-    public class Pet
+    public class Make
     {
         public int Id { get; set; }
 
-        public int MakeId { get; set; }
-
-        public string Color { get; set; }
-
-        public string PetName { get; set; }
+        public string Name { get; set; }
     }
 }

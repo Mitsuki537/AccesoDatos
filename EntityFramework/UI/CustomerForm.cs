@@ -11,16 +11,16 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace EntityFramework.WindForms
+namespace EntityFramework.UI
 {
     public partial class CustomerForm : Form
     {
         private readonly IRepository<Customer> _customerRepository;
-        private readonly AutoLotContext _context = new AutoLotContext();
 
         public CustomerForm()
         {
             InitializeComponent();
+            var _context = new AutoLotContext();
             _customerRepository = new Repository<Customer>(_context);
             dgvCustomers.DataError += dgvCustomers_DataError;
             LoadCustomersAsync();
@@ -35,10 +35,9 @@ namespace EntityFramework.WindForms
         {
             try
             {
-                dgvCustomers.SelectionChanged -= dgvCustomer_SelectionChanged;  
+                dgvCustomers.SelectionChanged -= dgvCustomer_SelectionChanged;
                 var customers = await _customerRepository.GetAllAsync();
                 dgvCustomers.DataSource = customers;
-                dgvCustomers.Columns["CreditRisks"].Visible = false;
                 dgvCustomers.SelectionChanged += dgvCustomer_SelectionChanged;
                 ClearCustomerInputs();
             }
@@ -53,7 +52,6 @@ namespace EntityFramework.WindForms
             txtCustomerId.Clear();
             txtFirstName.Clear();
             txtLastName.Clear();
-            dtpTimeStamp.Value = DateTime.Now;
         }
 
         private void dgvCustomer_SelectionChanged(object? sender, EventArgs e)
@@ -64,22 +62,6 @@ namespace EntityFramework.WindForms
                 txtCustomerId.Text = customer.Id.ToString();
                 txtFirstName.Text = customer.FirstName;
                 txtLastName.Text = customer.LastName;
-                if (customer.TimeStamp != null && customer.TimeStamp.Length == 8)
-                {
-                    long ticks = BitConverter.ToInt64(customer.TimeStamp, 0);
-                    if (ticks >= DateTime.MinValue.Ticks && ticks <= DateTime.MaxValue.Ticks)
-                    {
-                        dtpTimeStamp.Value = new DateTime(ticks);
-                    }
-                    else
-                    {
-                        dtpTimeStamp.Value = DateTime.Now;
-                    }
-                }
-                else
-                {
-                    dtpTimeStamp.Value = DateTime.Now;
-                }
             }
         }
 
@@ -91,7 +73,6 @@ namespace EntityFramework.WindForms
                 {
                     FirstName = txtFirstName.Text,
                     LastName = txtLastName.Text,
-                    TimeStamp = BitConverter.GetBytes(dtpTimeStamp.Value.Ticks)
                 };
                 await _customerRepository.AddAsync(customer);
                 LoadCustomersAsync();
@@ -117,7 +98,6 @@ namespace EntityFramework.WindForms
                 {
                     customer.FirstName = txtFirstName.Text;
                     customer.LastName = txtLastName.Text;
-                    customer.TimeStamp = BitConverter.GetBytes(dtpTimeStamp.Value.Ticks);
                     await _customerRepository.UpdateAsync(customer);
                     LoadCustomersAsync();
                     ClearCustomerInputs();
@@ -150,6 +130,48 @@ namespace EntityFramework.WindForms
             {
                 MessageBox.Show($"Error deleting customer: {ex.Message}");
             }
+        }
+
+        private async void btnSearch_Click(object sender, EventArgs e)
+        {
+                if (int.TryParse(txtSearchCustomerId.Text, out int id))
+                {
+                    var customer = await _customerRepository.GetByIdAsync(id);
+                    if (customer != null)
+                    {
+                        SelectCustomerById(id);
+                        FillCustomerDetails(customer);
+                    }
+                    else
+                    {
+                        MessageBox.Show("Customer not found.");
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Please enter a valid Customer Id.");
+                }
+        }
+
+        private void SelectCustomerById(int id)
+        {
+            foreach (DataGridViewRow row in dgvCustomers.Rows)
+            {
+                if (row.DataBoundItem is Customer customer && customer.Id == id)
+                {
+                    row.Selected = true;
+                    dgvCustomers.CurrentCell = row.Cells[0];  
+                    FillCustomerDetails(customer);
+                    return;
+                }
+            }
+        }
+
+        private void FillCustomerDetails(Customer customer)
+        {
+            txtCustomerId.Text = customer.Id.ToString();
+            txtFirstName.Text = customer.FirstName;
+            txtLastName.Text = customer.LastName;
         }
     }
 }

@@ -13,7 +13,5 @@ public partial class CreditRisk
 
     public int CustomerId { get; set; }
 
-    public byte[]? TimeStamp { get; set; }
-
     public virtual Customer Customer { get; set; } = null!;
 }

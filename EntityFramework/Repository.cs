@@ -50,10 +50,5 @@ namespace EntityFramework
                 await _context.SaveChangesAsync();
             }
         }
-
-        public async Task<List<TEntity>> SearchAsync(Func<TEntity, bool> predicate)
-        {
-            return await Task.FromResult(_dbSet.Where(predicate).ToList());
-        }
     }
 }

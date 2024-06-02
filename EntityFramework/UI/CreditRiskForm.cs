@@ -11,19 +11,16 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace EntityFramework.WindForms
+namespace EntityFramework.UI
 {
     public partial class CreditRiskForm : Form
     {
         private readonly IRepository<CreditRisk> _creditRiskRepository;
-        //private readonly IRepository<Customer> _customerRepository;
         public CreditRiskForm()
         {
-            var _context = new AutoLotContext();
-
             InitializeComponent();
+            var _context = new AutoLotContext();
             _creditRiskRepository = new Repository<CreditRisk>(_context);
-          //  _customerRepository = new Repository<Customer>(_context);
             dgvCreditRisks.DataError += dgvCreditRisks_DataError;
             dgvCreditRisks.SelectionChanged += dgvCreditRisks_SelectionChanged;
             cboCustomers.SelectedIndexChanged += cboCustomers_SelectedIndexChanged;
@@ -73,23 +70,6 @@ namespace EntityFramework.WindForms
                 txtCustomerId.Text = selectedCustomer.Id.ToString();
                 txtFirstName.Text = selectedCustomer.FirstName;
                 txtLastName.Text = selectedCustomer.LastName;
-
-                if (selectedCustomer.TimeStamp != null && selectedCustomer.TimeStamp.Length == 8)
-                {
-                    long ticks = BitConverter.ToInt64(selectedCustomer.TimeStamp, 0);
-                    if (ticks >= DateTime.MinValue.Ticks && ticks <= DateTime.MaxValue.Ticks)
-                    {
-                        dtpTimeStamp.Value = new DateTime(ticks);
-                    }
-                    else
-                    {
-                        dtpTimeStamp.Value = DateTime.Now;
-                    }
-                }
-                else
-                {
-                    dtpTimeStamp.Value = DateTime.Now;
-                }
             }
             else
             {
@@ -103,24 +83,6 @@ namespace EntityFramework.WindForms
                 txtCustomerId.Text = creditRisk.Id.ToString();
                 txtFirstName.Text = creditRisk.FirstName;
                 txtLastName.Text = creditRisk.LastName;
-                //cboCustomers.SelectedValue = creditRisk.CustomerId;
-
-                if (creditRisk.TimeStamp != null && creditRisk.TimeStamp.Length == 8)
-                {
-                    long ticks = BitConverter.ToInt64(creditRisk.TimeStamp, 0);
-                    if (ticks >= DateTime.MinValue.Ticks && ticks <= DateTime.MaxValue.Ticks)
-                    {
-                        dtpTimeStamp.Value = new DateTime(ticks);
-                    }
-                    else
-                    {
-                        dtpTimeStamp.Value = DateTime.Now;
-                    }
-                }
-                else
-                {
-                    dtpTimeStamp.Value = DateTime.Now;
-                }
             }
             else
             {
@@ -133,8 +95,6 @@ namespace EntityFramework.WindForms
             txtCustomerId.Clear();
             txtFirstName.Clear();
             txtLastName.Clear();
-            dtpTimeStamp.Value = DateTime.Now;
-           // cboCustomers.SelectedIndex = -1;
         }
 
         private void dgvCreditRisks_DataError(object? sender, DataGridViewDataErrorEventArgs e)
@@ -151,7 +111,6 @@ namespace EntityFramework.WindForms
                     FirstName = txtFirstName.Text,
                     LastName = txtLastName.Text,
                     CustomerId = (int)cboCustomers.SelectedValue,
-                    TimeStamp = BitConverter.GetBytes(dtpTimeStamp.Value.Ticks)
                 };
                 await _creditRiskRepository.AddAsync(creditRisk);
                 LoadCreditRisksAsync();
@@ -173,7 +132,7 @@ namespace EntityFramework.WindForms
             {
                 if (string.IsNullOrWhiteSpace(txtCustomerId.Text) || !int.TryParse(txtCustomerId.Text, out int creditRiskId))
                 {
-                    MessageBox.Show("Please enter a valid credit risk ID.");
+                    MessageBox.Show("Please enter a valid credit risk Id.");
                     return;
                 }
 
@@ -193,7 +152,6 @@ namespace EntityFramework.WindForms
                 creditRisk.FirstName = txtFirstName.Text;
                 creditRisk.LastName = txtLastName.Text;
                 creditRisk.CustomerId = (int)cboCustomers.SelectedValue;
-                creditRisk.TimeStamp = BitConverter.GetBytes(dtpTimeStamp.Value.Ticks);
 
                 await _creditRiskRepository.UpdateAsync(creditRisk);
                 LoadCreditRisksAsync();
@@ -225,6 +183,48 @@ namespace EntityFramework.WindForms
             catch (Exception ex)
             {
                 MessageBox.Show($"Error deleting credit risk: {ex.Message}");
+            }
+        }
+
+        private async void btnSearch_Click(object sender, EventArgs e)
+        {
+            if (int.TryParse(txtSearchCreditRiskId.Text, out int id))
+            {
+                var customer = await _creditRiskRepository.GetByIdAsync(id);
+                if (customer != null)
+                {
+                    SelectCustomerById(id);
+                    FillCustomerDetails(customer);
+                }
+                else
+                {
+                    MessageBox.Show("Customer not found.");
+                }
+            }
+            else
+            {
+                MessageBox.Show("Please enter a valid Customer Id.");
+            }
+        }
+
+        private void FillCustomerDetails(CreditRisk customer)
+        {
+            txtCustomerId.Text = customer.Id.ToString();
+            txtFirstName.Text = customer.FirstName;
+            txtLastName.Text = customer.LastName;
+        }
+
+        private void SelectCustomerById(int id)
+        {
+            foreach (DataGridViewRow row in dgvCreditRisks.Rows)
+            {
+                if (row.DataBoundItem is CreditRisk creditRisk && creditRisk.Id == id)
+                {
+                    row.Selected = true;
+                    dgvCreditRisks.CurrentCell = row.Cells[0];
+                    FillCustomerDetails(creditRisk);
+                    return;
+                }
             }
         }
     }

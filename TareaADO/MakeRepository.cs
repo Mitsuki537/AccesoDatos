@@ -4,8 +4,9 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ADO.Models;
 
-namespace TareaADO
+namespace ADO
 {
     public class MakeRepository: IRepository<Make>
     {

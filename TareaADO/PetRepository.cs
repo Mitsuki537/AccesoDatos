@@ -5,8 +5,9 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ADO.Models;
 
-namespace TareaADO
+namespace ADO
 {
     public class PetRepository: IRepository<Pet>
     {
@@ -38,7 +39,7 @@ namespace TareaADO
             }
             catch (Exception ex)
             {
-                throw new Exception("Error when trying to delete record from db");
+                throw new Exception($"Error when trying to delete record from db: {ex.Message}");
             }
 
         }
@@ -113,7 +114,7 @@ namespace TareaADO
             }
             catch (Exception ex)
             {
-                throw new Exception("Error while trying to get Pet from db");
+                throw new Exception($"Error while trying to get Pet from db: {ex.Message}");
             }
 
             return null;
@@ -144,7 +145,7 @@ namespace TareaADO
             }
             catch (Exception ex)
             {
-                throw new Exception("Error when trying to insert record from db");
+                throw new Exception($"Error when trying to insert record into db: {ex.Message}");
             }
 
         }
@@ -174,7 +175,7 @@ namespace TareaADO
             }
             catch (Exception ex)
             {
-                throw new Exception("Error when trying to update record from db");
+                throw new Exception($"Error when trying to update record in db: {ex.Message}");
             }
         }
     }

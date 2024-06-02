@@ -8,8 +8,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using ADO.Models;
 
-namespace TareaADO
+namespace ADO.UI
 {
     public partial class MakesForm : Form
     {
@@ -19,9 +20,21 @@ namespace TareaADO
         {
             InitializeComponent();
             string connection = ConfigurationManager.ConnectionStrings["con_str"].ConnectionString;
-            _makeRepository = new MakeRepository(connection);
+            _makeRepository = new MakeRepository(connection);  
             RefreshData();
         }
+     
+
+        private void dgvMakes_SelectionChanged(object? sender, EventArgs e)
+        {
+            if (dgvMakes.CurrentRow != null)
+            {
+                var make = (Make)dgvMakes.CurrentRow.DataBoundItem;
+                txtName.Text = make.Id.ToString();
+            }
+        }
+
+       
 
         private void btnUpdate_Click(object sender, EventArgs e)
         {

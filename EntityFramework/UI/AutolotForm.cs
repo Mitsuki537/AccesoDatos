@@ -1,5 +1,4 @@
-﻿using EntityFramework.WindForms;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -9,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace EntityFramework
+namespace EntityFramework.UI
 {
     public partial class AutolotForm : Form
     {
@@ -29,7 +28,7 @@ namespace EntityFramework
             frm.Show();
         }
 
-        private void btnCreditRisk_Click(object sender, EventArgs e)
+        private void btnCreditRiskForm_Click(object sender, EventArgs e)
         {
             CreditRiskForm frm = new CreditRiskForm();
             frm.Show();

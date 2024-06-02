@@ -5,7 +5,7 @@ VisualStudioVersion = 17.9.34728.123
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EntityFramework", "EntityFramework\EntityFramework.csproj", "{D01F066F-14BF-4FCA-9288-4674DD34F4B8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TareaADO", "TareaADO\TareaADO.csproj", "{3940BA3E-8341-48BD-8C64-EA7BF866FBBB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ADO", "TareaADO\ADO.csproj", "{3940BA3E-8341-48BD-8C64-EA7BF866FBBB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
